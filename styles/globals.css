@@ -1,42 +1,101 @@
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
-}
-
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
 * {
-  box-sizing: border-box;
-  padding: 0;
   margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+html, body {
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  font-family: sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
+.background-blur {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-image: url('/images/cat2.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: blur(4px) brightness(0.6); /* MODERATE blur/brightness */
+  z-index: -2;
+}
+
+.horizontal-scroll-wrapper {
+  display: flex;
+  height: 100vh;
+  width: 500vw; /* 5 panels */
+  overflow: hidden;
+}
+
+.panel {
+  flex: 0 0 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  scroll-snap-align: start;
+  background: transparent;
+}
+
+.panel-content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 40px;
+  max-width: 90%;
+  padding: 40px;
+  z-index: 1;
+}
+
+.phone-img {
+  width: 260px;
+  height: 480px;
+  object-fit: cover;
+  border-radius: 24px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  transform-origin: center center;
+  will-change: transform;
+}
+.phone-img,
+.text-content {
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  transform-origin: center;
+  will-change: transform, opacity;
+}
+
+
+
+.phone-img:hover {
+  transform: scale(1.05);
+}
+
+.text-content {
+  max-width: 400px;
+}
+
+.text-content h2 {
+  font-size: 28px;
+  color: black;
+  margin-bottom: 12px;
+}
+
+.text-content p {
+  font-size: 16px;
+  color: #fff;
+  line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+  .panel-content {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .text-content {
+    max-width: 100%;
   }
 }
