@@ -1,15 +1,15 @@
-import { useEffect } from 'react'
-import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useEffect } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-gsap.registerPlugin(ScrollTrigger)
+gsap.registerPlugin(ScrollTrigger);
 
 export default function Home() {
   useEffect(() => {
-    const panels = document.querySelectorAll('.panel')
-    const totalPanels = panels.length
+    const panels = document.querySelectorAll('.panel');
+    const totalPanels = panels.length;
 
-    // Horizontal scroll animation
+    // Horizontal scroll animation tied to ScrollTrigger, pins the scroll container
     const horizontalScroll = gsap.to('.horizontal-scroll-wrapper', {
       xPercent: -100 * (totalPanels - 1),
       ease: 'none',
@@ -18,44 +18,70 @@ export default function Home() {
         pin: true,
         scrub: 1,
         end: () => `+=${window.innerWidth * totalPanels}`,
-        id: 'horizontalScroll', // Needed for containerAnimation
       },
-    })
+    });
 
-    // Image zoom effect as panels scroll
+    // Animate image and text in each panel on horizontal scroll progress
     panels.forEach((panel) => {
-      const image = panel.querySelector('.phone-img')
+      const image = panel.querySelector('.phone-img');
+      const text = panel.querySelector('.text-content');
 
-      gsap.fromTo(
-        image,
-        { scale: 0.85 },
+      gsap.fromTo(image,
+        { scale: 0.8, opacity: 0, y: 50 },
         {
           scale: 1,
+          opacity: 1,
+          y: 0,
+          ease: 'power2.out',
           scrollTrigger: {
             trigger: panel,
-            containerAnimation: horizontalScroll, // Use the scroll tween above
-            start: 'center center',
+            containerAnimation: horizontalScroll,
+            start: 'left center',
             end: 'center center',
             scrub: true,
           },
         }
-      )
-    })
-  }, [])
+      );
+
+      gsap.fromTo(text,
+        { scale: 0.8, opacity: 0, y: 50 },
+        {
+          scale: 1,
+          opacity: 1,
+          y: 0,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: panel,
+            containerAnimation: horizontalScroll,
+            start: 'left center',
+            end: 'center center',
+            scrub: true,
+          },
+        }
+      );
+    });
+
+    // Optional: return a cleanup function to kill ScrollTriggers on unmount
+    return () => {
+      ScrollTrigger.getAll().forEach(st => st.kill());
+    };
+  }, []);
 
   return (
     <>
-      <div className="background-blur" />
+      {/* Background gradient div for subtle radial glow */}
+      <div className="background-gradient" />
 
       <div className="horizontal-scroll-wrapper">
         {/* Panel 1 */}
         <section className="panel">
           <div className="panel-content">
-            <img src="/images/cat1.jpg" className="phone-img" alt="Cat 1" />
+            <img src="/images/6k.png" className="phone-img" alt="Activate Superconscious" />
             <div className="text-content">
-              <h2>Collective Purr</h2>
-              <p>Three heads, one mission: to spread purr-powered harmony through the universe.</p>
-              <p>Together, they form a living trinity of feline philosophy.</p>
+              <h2>Activate Your Superconscious</h2>
+              <p>
+                Activation is the bridge between knowing and becoming. Whether it's a sound, a symbol, or a moment in time, each Activation is designed to shift your state and rewire your focus. This is not motivation — it is your bridge to your future self.
+              </p>
             </div>
           </div>
         </section>
@@ -63,12 +89,12 @@ export default function Home() {
         {/* Panel 2 */}
         <section className="panel">
           <div className="panel-content">
-            <img src="/images/cat4.jpg" className="phone-img" alt="Cat 4" />
+            <img src="/images/1k.png" className="phone-img" alt="Your Patterns Revealed" />
             <div className="text-content">
-              <h2>Deep Cat Meditation</h2>
-              <p>This cat is a master of mindfulness. Notice its relaxed posture, gentle gaze, and unbothered vibe.</p>
-              <p>This cat reminds us to slow down and simply be. Sit, breathe, and purr your stress away.</p>
-              <p>Every blink is a mantra. Every purr is an affirmation.</p>
+              <h2>Your Patterns Revealed Through Reflection</h2>
+              <p>
+                Reflection is not thinking — it’s perceiving. When you reflect consciously, patterns are revealed. And when patterns are revealed, they can be rewired. Through clarity, we create conscious choice.
+              </p>
             </div>
           </div>
         </section>
@@ -76,10 +102,12 @@ export default function Home() {
         {/* Panel 3 */}
         <section className="panel">
           <div className="panel-content">
-            <img src="/images/cat3.jpg" className="phone-img" alt="Cat 3" />
+            <img src="/images/3k.png" className="phone-img" alt="The Conscious Reward Loop" />
             <div className="text-content">
-              <h2>Blue-Eyed Wisdom</h2>
-              <p>Those blue eyes don't just see — they understand. She is silence, and silence is wise.</p>
+              <h2>The Conscious Reward Loop</h2>
+              <p>
+                Every aligned action is a seed. The loop is built through reward — but only when you consciously reward the behavior you want repeated. Build your own loop of alignment. Action. Reward. Repeat.
+              </p>
             </div>
           </div>
         </section>
@@ -87,11 +115,12 @@ export default function Home() {
         {/* Panel 4 */}
         <section className="panel">
           <div className="panel-content">
-            <img src="/images/cat51.jpg" className="phone-img" alt="Cat 5" />
+            <img src="/images/15k.png" className="phone-img" alt="Align Energetic Blueprint" />
             <div className="text-content">
-              <h2>Sunbeam Seeker</h2>
-              <p>With precision and purpose, this cat always finds the perfect patch of sunlight to nap in.</p>
-              <p>A master of warmth and timing.</p>
+              <h2>Align Your Energetic Blueprint</h2>
+              <p>
+                Just as a blueprint guides construction, your energetic blueprint shapes your identity. When you realign it with your vision, you shift the way you move, act, and perceive the world — instantly.
+              </p>
             </div>
           </div>
         </section>
@@ -99,15 +128,16 @@ export default function Home() {
         {/* Panel 5 */}
         <section className="panel">
           <div className="panel-content">
-            <img src="/images/cat61.jpg" className="phone-img" alt="Cat 6" />
+            <img src="/images/14k.png" className="phone-img" alt="Integrate Superconscious" />
             <div className="text-content">
-              <h2>The Watchful Gaze</h2>
-              <p>Quiet, focused, alert — this guardian cat surveys its kingdom with calm confidence.</p>
-              <p>Nothing escapes its notice.</p>
+              <h2>Integrate Your Superconscious</h2>
+              <p>
+                Integration is the ongoing process of becoming. It is not something you finish — it’s who you are. As you integrate the superconscious into your daily actions, it becomes your new baseline.
+              </p>
             </div>
           </div>
         </section>
       </div>
     </>
-  )
+  );
 }
