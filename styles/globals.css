@@ -1,45 +1,47 @@
-/* styles.css */
-
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* Base background color fallback */
+
 html, body {
-  overflow-x: hidden;
-  scroll-behavior: smooth;
+  overflow-x: hidden; 
+  scroll-behavior: smooth; 
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-image: url(/images/animation-bg.png); /* Your background image */
-  background-size: cover; /* Ensure it covers the entire viewport */
-  background-position: center center; /* Center the background image */
-  background-attachment: fixed; /* Make the background image fixed */
-  background-color: #000; /* Fallback if image fails to load */
+  background-image: url(/images/animation-bg.png);
+  background-size: cover; 
+  background-position: center center; 
+  background-attachment: fixed; 
+  background-color: #000; 
   color: #fff;
+  min-height: 100vh;
+  position: relative;
 }
 
 
-/* Main scroll wrapper */
+/* Main horizontal scroll wrapper */
 .horizontal-scroll-wrapper {
   display: flex;
   height: 100vh;
-  width: 500vw;
-  overflow: hidden;
+  width: auto; 
+  overflow: visible; 
+  position: relative; 
+  z-index: 1; 
 }
 
-/* Make panels transparent so the global background shows */
+/* Individual panel styling */
 .panel {
-  flex: 0 0 100vw;
-  height: 100vh;
+  flex-shrink: 0; 
+  width: 100vw; 
+  height: 100vh; 
   display: flex;
   justify-content: center;
   align-items: center;
-  scroll-snap-align: start;
   position: relative;
   z-index: 1;
-  overflow: hidden;
-  background-color: transparent;
+  background-color: transparent; 
+  overflow: hidden; 
 }
 
 .panel-content {
@@ -47,12 +49,12 @@ html, body {
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  gap: 40px; /* Reduced from 80px to make images/text appear closer */
+  gap: 40px;
   max-width: 1200px;
   width: 100%;
   padding: 40px;
-  z-index: 2;
   position: relative;
+  z-index: 2;
   will-change: transform, opacity;
 }
 
@@ -60,22 +62,21 @@ html, body {
   width: 300px;
   height: 600px;
   object-fit: contain;
-  /* Removed border-radius to remove the rounded frame look */
-  /* Removed box-shadow to remove the shadow effect */
-  transform-origin: center center;
-  will-change: transform, opacity;
-  position: relative;
-  z-index: 2;
-  border: none;    /* Remove frames/borders */
-  outline: none;   /* Remove focus outlines */
+  transform-origin: center center; /* Ensure scaling/rotation happens from the center */
+  will-change: transform, opacity; /* Inform browser about expected animations */
+  position: relative; /* Good practice for z-index and transformations */
+  z-index: 2; /* Ensure image is above background gradient */
+  border: none;
+  outline: none;
 }
 
 .text-content {
   max-width: 500px;
   will-change: transform, opacity;
   position: relative;
-  z-index: 1;
+  z-index: 1; /* Position text below image slightly if needed for layering */
   color: #fff;
+  text-align: left; /* Default text alignment */
 }
 
 .text-content h2 {
@@ -91,18 +92,30 @@ html, body {
   line-height: 1.8;
 }
 
+/* Background gradient for subtle glow */
+.background-gradient {
+  position: fixed; /* Fixed position relative to viewport */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0; /* Keep it behind everything else */
+  background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0.8)); /* Soft white glow to dark transition */
+  opacity: 1; /* Always visible, controlled by its own opacity */
+  pointer-events: none; /* Ensure it doesn't block interaction */
+}
+
 /* Responsive adjustments */
 @media (max-width: 1024px) {
   .panel-content {
-    flex-direction: column;
-    text-align: center;
+    flex-direction: column; /* Stack image and text vertically */
+    text-align: center; /* Center text when stacked */
     gap: 30px;
   }
 
   .phone-img {
     width: 250px;
     height: 500px;
-    /* Removed border-radius for responsiveness as well */
   }
 
   .text-content {
@@ -122,7 +135,6 @@ html, body {
   .phone-img {
     width: 200px;
     height: 400px;
-    /* Removed border-radius for responsiveness as well */
   }
 
   .text-content h2 {
@@ -131,5 +143,9 @@ html, body {
 
   .text-content p {
     font-size: 14px;
+  }
+
+  .panel-content {
+    padding: 20px; /* Reduce padding on smaller screens */
   }
 }
